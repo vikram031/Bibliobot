@@ -11,13 +11,21 @@ nltk.download('stopwords')
 
 app = Flask(__name__)
 
+@app.after_request
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
     return response
 
-app.after_request(add_cors_headers)
+@app.route('/api/chat', methods=['POST', 'OPTIONS'])
+def chat_options():
+    return jsonify({}), 200
+
+# Connect to database collections
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+client = MongoClient(MONGO_URI)
+db = client["college"]
 
 # Connect to database collections
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
