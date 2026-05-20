@@ -14,7 +14,8 @@ app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "http://127.0.0.1:5174"]) # Allows your React interface to contact this server cleanly
 
 # Connect to database collections
-client = MongoClient("mongodb://localhost:27017/")
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+client = MongoClient(MONGO_URI)
 db = client["college"]
 
 def query_books(intent, user_input, session_id):
