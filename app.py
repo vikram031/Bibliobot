@@ -11,7 +11,13 @@ nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "http://127.0.0.1:5174"]) # Allows your React interface to contact this server cleanly
+CORS(app, origins=["*"]) # Allows your React interface to contact this server cleanly
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 # Connect to database collections
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
