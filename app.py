@@ -12,6 +12,7 @@ nltk.download('stopwords')
 
 app = Flask(__name__)
 CORS(app, origins=["*"]) # Allows your React interface to contact this server cleanly
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
